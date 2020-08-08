@@ -20,16 +20,19 @@ class FetchPaymentsDataFromStripeApi extends Command
 
         $this->info('Fetching Stripe payments ...');
 
-        $payments = $stripe->customers->all([
+        $payments = $stripe->charges->all([
             config('dashboard.tiles.stripe.payments.params') ?? [],
         ]);
 
         $payments = collect($payments->data)
             ->map(function ($payment) {
                 return [
-                    'name' => $payment->name,
-                    'customer_id' => $payment->id,
-                    'email' => $payment->email,
+                    'id' => $payment->id,
+                    'amount' => $this->toReadableAmount($payment->amount),
+                    'currency' => strtoupper($payment->currency),
+                    'customer' => $this->getCustomerEmailFromStripe($payment->customer),
+                    'status' => $payment->status,
+                    'captured' => $payment->captured,
                     'createdAt' => Carbon::parse($payment->created)
                         ->format("d.m.Y"),
                 ];
@@ -40,5 +43,28 @@ class FetchPaymentsDataFromStripeApi extends Command
         $this->info('All done!');
 
         return 0;
+    }
+
+    public function toReadableAmount($baseAmount)
+    {
+        return $baseAmount/100;
+    }
+
+    /**
+     * @param string|null $customer
+     * @return string|null
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function getCustomerEmailFromStripe(?string $customer = null): ?string
+    {
+        if(! $customer) {
+            return null;
+        }
+        $stripe = new StripeClient(
+            config('dashboard.tiles.stripe.secret_key', env('STRIPE_SECRET'))
+        );
+        return $stripe->customers->retrieve(
+            $customer,
+        )->email;
     }
 }

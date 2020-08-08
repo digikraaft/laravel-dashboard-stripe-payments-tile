@@ -1,8 +1,8 @@
 # A tile to show list of Stripe Customers on Laravel Dashboard
-![run-tests](https://github.com/digikraaft/laravel-dashboard-stripe-customers-tile/workflows/run-tests/badge.svg)
-[![Build Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-customers-tile/badges/build.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-customers-tile/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-customers-tile/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-customers-tile/?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-customers-tile/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+![run-tests](https://github.com/digikraaft/laravel-dashboard-stripe-payments-tile/workflows/run-tests/badge.svg)
+[![Build Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/build.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/?branch=master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 This tile displays the list of [Stripe](https://stripe.com) customers. 
@@ -13,7 +13,7 @@ It can be used on [the Laravel Dashboard](https://docs.spatie.be/laravel-dashboa
 You can install the package via composer:
 
 ```bash
-composer require digikraaft/laravel-dashboard-stripe-customers-tile
+composer require digikraaft/laravel-dashboard-stripe-payments-tile
 ```
 You need to publish the migrations and config file of the [Laravel Dashboard](https://github.com/spatie/laravel-dashboard) package.
 In the `dashboard` config file, you can optionally add this configuration in the tiles key and customize it for your own needs:
@@ -28,12 +28,11 @@ In the `dashboard` config file, you can optionally add this configuration in the
         'stripe' => [
 
             'secret_key' => env('STRIPE_SECRET'),
-
-            'customers' => [
+            'payments' => [
 
                 /**
                  * the values here must be supported by the Stripe API
-                 * @link https://stripe.com/docs/api/customers/list?lang=php
+                 * @link https://stripe.com/docs/api/charges?lang=php
                  */
                 'params' => [
                     'limit' => 50,
@@ -48,31 +47,31 @@ In the `dashboard` config file, you can optionally add this configuration in the
     ],
 ```
 You must set your `STRIPE_SECRET` in the `.env` file. You can get this from your Stripe dashboard. 
-To load the customer data from Stripe at regular intervals, you need to schedule the `FetchCustomersDataFromStripeApi`
+To load the customer data from Stripe at regular intervals, you need to schedule the `FetchPaymentsDataFromStripeApi`
 command:
 ```
 // in app/Console/Kernel.php
-use Digikraaft\StripeCustomersTile\FetchCustomersDataFromStripeApi;
+use Digikraaft\StripePaymentsTile\FetchPaymentsDataFromStripeApi;
 
 protected function schedule(Schedule $schedule)
 {
-    $schedule->command(FetchCustomersDataFromStripeApi::class)->twiceDaily();
+    $schedule->command(FetchPaymentsDataFromStripeApi::class)->twiceDaily();
 }
 ```
 You can change the frequency of the schedule as desired. You can also use the
-`php artisan dashboard:fetch-customers-data-from-stripe-api` command.
+`php artisan dashboard:fetch-payments-data-from-stripe-api` command.
 
 ## Usage
-In your dashboard view you use the `livewire:stripe-customers-tile` component.
+In your dashboard view you use the `livewire:stripe-payments-tile` component.
 ```html
 <x-dashboard>
-    <livewire:stripe-customers-tile position="e7:e16" />
+    <livewire:stripe-payments-tile position="e7:e16" />
 </x-dashboard>
 ```
 You can add an optional title:
 ```html
 <x-dashboard>
-    <livewire:stripe-customers-tile position="e7:e16" title="Stripe Customers" />
+    <livewire:stripe-payments-tile position="e7:e16" title="Stripe Payments" />
 </x-dashboard>
 ```
 
@@ -81,7 +80,7 @@ The package paginates data by default. The default value is 5. This can be chang
 property to the tile:
 ```html
 <x-dashboard>
-    <livewire:stripe-customers-tile position="e7:e16" title="Stripe Customers" perPage="10" />
+    <livewire:stripe-payments-tile position="e7:e16" title="Stripe Payments" perPage="10" />
 </x-dashboard>
 ```
 

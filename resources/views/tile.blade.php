@@ -6,28 +6,32 @@
             </h1>
         @else
             <h1 class="font-bold">
-               Stripe Customers <span class="text-dimmed">({{$paginator->total()}})</span>
+               Stripe Payments <span class="text-dimmed">({{$paginator->total()}})</span>
             </h1>
         @endisset
         <ul class="self-center divide-y-2 divide-canvas">
-            @foreach($customers as $customer)
+            @foreach($payments as $payment)
                 <li class="py-1">
                     <div class="my-2">
                         <div class="font-bold">
-                            ID: <a href="https://dashboard.paystack.com/#/customers/{{ $customer['customer_id'] }}" target="_blank">
-                                {{ $customer['customer_id'] }}
+                            Amount: {{$payment['currency']}} {{ $payment['amount'] }}
+                        </div>
+                        <div class="text-sm">
+                            ID: <a href="https://dashboard.stripe.com/payments/{{ $payment['id'] }}" target="_blank">
+                                {{ $payment['id'] }}
                             </a>
                         </div>
-                        @isset($customer['name'])
+                        <div class="text-sm">
+                            Status: <span class="{{($payment['status']=='succeeded')? 'text-green-700' : 'text-red-700'}}">{{$payment['status']}}</span>
+                        </div>
+                        @isset($payment['customer'])
                             <div class="text-sm text-dimmed">
-                                Name: {{ $customer['name'] }}
+                                Customer: <a href="mailto:{{$payment['customer']}}">
+                                {{ $payment['customer'] }} </a>
                             </div>
                         @endisset
                         <div class="text-sm text-dimmed">
-                            Email: <a href="mailto:{{ $customer['email'] }}">{{ $customer['email'] }}</a>
-                        </div>
-                        <div class="text-sm text-dimmed">
-                            Added on: {{$customer['createdAt']}}
+                            Date: {{$payment['createdAt']}}
                         </div>
                     </div>
                 </li>
