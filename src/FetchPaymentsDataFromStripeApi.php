@@ -47,7 +47,7 @@ class FetchPaymentsDataFromStripeApi extends Command
 
     public function toReadableAmount($baseAmount)
     {
-        return $baseAmount/100;
+        return $baseAmount / 100;
     }
 
     /**
@@ -57,12 +57,13 @@ class FetchPaymentsDataFromStripeApi extends Command
      */
     public function getCustomerEmailFromStripe(?string $customer = null): ?string
     {
-        if(! $customer) {
+        if (! $customer) {
             return null;
         }
         $stripe = new StripeClient(
             config('dashboard.tiles.stripe.secret_key', env('STRIPE_SECRET'))
         );
+
         return $stripe->customers->retrieve(
             $customer,
         )->email;
