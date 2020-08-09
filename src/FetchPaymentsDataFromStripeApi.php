@@ -20,11 +20,9 @@ class FetchPaymentsDataFromStripeApi extends Command
 
         $this->info('Fetching Stripe payments ...');
 
-        $payments = $stripe->charges->all([
-            config('dashboard.tiles.stripe.payments.params') ?? [
-                'limit' => 5,
-            ],
-        ]);
+        $payments = $stripe->charges->all(
+            config('dashboard.tiles.stripe.payments.params') ?? ['limit' => 5]
+        );
 
         $payments = collect($payments->data)
             ->map(function ($payment) {
