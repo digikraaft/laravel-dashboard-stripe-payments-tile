@@ -1,6 +1,6 @@
 # A tile to show list of Stripe Payments on Laravel Dashboard
 ![run-tests](https://github.com/digikraaft/laravel-dashboard-stripe-payments-tile/workflows/run-tests/badge.svg)
-
+[![Build Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/build.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/?branch=master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/digikraaft/laravel-dashboard-stripe-payments-tile/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
