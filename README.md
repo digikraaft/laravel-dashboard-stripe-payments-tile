@@ -35,7 +35,7 @@ In the `dashboard` config file, you can optionally add this configuration in the
                  * @link https://stripe.com/docs/api/charges?lang=php
                  */
                 'params' => [
-                    'limit' => 50,
+                    'limit' => 5,
                 ],
 
                 /**
